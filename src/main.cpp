@@ -1,4 +1,5 @@
 #include <M5Stack.h>
+#include "lcd.hpp"
 
 // LCD
 # define LCD_HEIGHT 240
@@ -18,21 +19,23 @@ portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
 void task1_fun(void *params) {
   int count = 0;
+  Lcd* mLcd = new Lcd();
   while (1) {
     delay(1);
     ++count;
 
     if (t_count > 2) {
+      // Print 'count' per 4ms
       timerAlarmDisable(timer);
-      M5.Lcd.printf("count  : %d\n", count);
-      M5.Lcd.printf("t_count: %ld\n", t_count);
+
+      char buf[128];
+      sprintf(buf, "count  : %d\nt_count: %ld\n", count, t_count);
+      mLcd->Draw(buf);
+
       count = 0;
       t_count = -1;
 
       delay(1000);
-
-      M5.Lcd.fillScreen(BLACK);
-      M5.Lcd.setCursor(0, 0);
       timerAlarmEnable(timer);
     }
   }
