@@ -9,7 +9,7 @@ const int Lcd::CHAR_LENGTH = LCD_WIDTH / 17;
  * @brief Constructor
  * @details Setup
  */
-Lcd::Lcd(void){
+Lcd::Lcd(void) {
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(3);
@@ -19,12 +19,12 @@ Lcd::Lcd(void){
 /**
  * @brief Destructor
  */
-Lcd::~Lcd(void){}
+Lcd::~Lcd(void) {}
 
 /**
  * @brief Reset screen
  */
-void Lcd::Reset(void){
+void Lcd::reset(void) {
   M5.Lcd.fillScreen(BLACK);
 }
 
@@ -34,7 +34,7 @@ void Lcd::Reset(void){
  * @param s2 delimiter
  * @return string array
  */
-char* Lcd::Strtoks(char *s1, const char *s2){
+char* Lcd::strtoks(char *s1, const char *s2) {
 	static char *str = 0;
 	register int i,j;
 
@@ -67,7 +67,7 @@ char* Lcd::Strtoks(char *s1, const char *s2){
  * @param str target
  * @return the display position of the horizontal axis
  */
-int Lcd::GetXPosition(const char* str){
+int Lcd::getXPosition(const char* str) {
 	return LCD_WIDTH / 2 - (strlen(str) / 2) * CHAR_LENGTH;
 }
 
@@ -75,8 +75,8 @@ int Lcd::GetXPosition(const char* str){
  * @breif Draw on lcd
  * @param str target
  */
-void Lcd::Draw(const char *str){
-	Reset();
+void Lcd::draw(const char *str) {
+	reset();
 
 	int lenStr = 0, cnt = 0, lenCnt = 0, index = 0;
 	while(str[index] != '\0'){
@@ -92,11 +92,11 @@ void Lcd::Draw(const char *str){
 	char* ptr;
 	char buff[512];
 	strcpy(buff, str);
-	ptr = Strtoks(buff, "\n");
-  M5.Lcd.setCursor(GetXPosition(ptr), ROW_LENGTH * (lenCnt++));
+	ptr = strtoks(buff, "\n");
+  M5.Lcd.setCursor(getXPosition(ptr), ROW_LENGTH * (lenCnt++));
   M5.Lcd.print(ptr);
-	while((ptr = Strtoks(NULL, "\n")) != NULL){
-    M5.Lcd.setCursor(GetXPosition(ptr), ROW_LENGTH * (lenCnt++));
+	while((ptr = strtoks(NULL, "\n")) != NULL){
+    M5.Lcd.setCursor(getXPosition(ptr), ROW_LENGTH * (lenCnt++));
     M5.Lcd.print(ptr);
 		str = NULL;
 	}

@@ -14,10 +14,10 @@ public:
   Lcd(void);
   ~Lcd(void);
 
-  void Reset();
-	char *Strtoks(char*, const char*);
-	int GetXPosition(const char*);
-	void Draw(const char*);
+  void reset();
+	char *strtoks(char*, const char*);
+	int getXPosition(const char*);
+	void draw(const char*);
 };
 
 #endif
