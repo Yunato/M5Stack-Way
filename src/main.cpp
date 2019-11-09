@@ -20,6 +20,7 @@ portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
 void task1_fun(void *params) {
   int count = 0;
+  Ble* mBle = new Ble();
   Lcd* mLcd = new Lcd();
   while (1) {
     delay(1);
@@ -30,13 +31,14 @@ void task1_fun(void *params) {
       timerAlarmDisable(timer);
 
       char buf[128];
-      sprintf(buf, "count  : %d\nt_count: %ld\n", count, t_count);
+      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c", count, t_count, mBle->receive());
       mLcd->draw(buf);
 
       count = 0;
       t_count = -1;
 
       delay(1000);
+      mBle->send();
       timerAlarmEnable(timer);
     }
   }
@@ -61,8 +63,6 @@ void setup() {
 
   Serial.begin(115200);
   M5.begin();
-
-  Ble* mBle = new Ble();
 
   timer = timerBegin(0, 80, true);
   timerAttachInterrupt(timer, &onTimer, true);

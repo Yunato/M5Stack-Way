@@ -2,16 +2,12 @@
 #define BLE_H_
 
 #include <M5Stack.h>
-#include <BLEDevice.h>
+#include "BluetoothSerial.h"
 
 class Ble {
 private:
-	static const std::string SERVICE_UUID;
-	static const std::string CHARACTERISTIC_UUID;
-  BLEServer* pServer;
-  BLEService* pService;
-  BLECharacteristic* pCharacteristic;
-  BLEAdvertising* pAdvertising;
+  BluetoothSerial bts;
+  int count = 0;
 
 public:
 	Ble();
@@ -19,52 +15,12 @@ public:
 
 	void active();
 	void stop();
-	void receive();
+	int receive();
 	// void send(const char*);
+	void send();
 
 	template <typename tFunction>
 	void exec(tFunction func);
-
-  class ServerCallbacks: public BLEServerCallbacks {
-    private:
-     bool deviceConnected = false;
-
-    public:
-      bool isConnected() {
-        return deviceConnected;
-     }
-
-      void onConnect(BLEServer* pServer) {
-        M5.Lcd.println("connect");
-        deviceConnected = true;
-      };
-
-      void onDisconnect(BLEServer* pServer) {
-        M5.Lcd.println("disconnect");
-        deviceConnected = false;
-     }
-    };
-
-  class CharacteristicCallbacks: public BLECharacteristicCallbacks {
-    private:
-     bool received = false;
-
-    public:
-      bool hasReceived() {
-        return received;
-      }
-
-      void onRead(BLECharacteristic *pCharacteristic) {
-        pCharacteristic->setValue("Message from M5Stack");
-      }
-
-      void onWrite(BLECharacteristic *pCharacteristic) {
-        //std::string value = pCharacteristic->getValue();
-        //M5.Lcd.println(value.c_str());
-        received = true;
-        M5.Lcd.println("Received!");
-      }
-    };
 };
 
 #endif
