@@ -1,5 +1,5 @@
-#ifndef BLE_H_
-#define BLE_H_
+#ifndef BLUETOOTH_H_
+#define BLUETOOTH_H_
 
 #include <M5Stack.h>
 #include <vector>

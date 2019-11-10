@@ -1,6 +1,7 @@
 #include <M5Stack.h>
 #include "lcd.hpp"
 #include "bluetooth.hpp"
+#include "gyro.hpp"
 
 // LCD
 # define LCD_HEIGHT 240
@@ -23,6 +24,8 @@ void task1_fun(void *params) {
   Bluetooth* bt = new Bluetooth();
   bt->active();
   Lcd* mLcd = new Lcd();
+  Gyro* gyro = new Gyro();
+  gyro->reset();
   while (1) {
     delay(1);
     ++count;
@@ -32,14 +35,13 @@ void task1_fun(void *params) {
       timerAlarmDisable(timer);
 
       char buf[128];
-      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c", count, t_count, bt->receive());
+      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\n pitch: %6.2f\n", count, t_count, bt->receive(), gyro->getAngle());
       mLcd->draw(buf);
 
       count = 0;
       t_count = -1;
 
       delay(1000);
-      bt->send("From M5Stack\n");
       timerAlarmEnable(timer);
     }
   }
@@ -64,6 +66,7 @@ void setup() {
 
   Serial.begin(115200);
   M5.begin();
+  M5.Power.begin();
 
   timer = timerBegin(0, 80, true);
   timerAttachInterrupt(timer, &onTimer, true);
