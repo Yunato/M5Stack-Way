@@ -2,22 +2,22 @@
 #define BLE_H_
 
 #include <M5Stack.h>
+#include <vector>
 #include "BluetoothSerial.h"
 
-class Ble {
+class Bluetooth {
 private:
   BluetoothSerial bts;
   int count = 0;
 
 public:
-	Ble();
-	~Ble();
+	Bluetooth();
+	~Bluetooth();
 
 	void active();
 	void stop();
 	int receive();
-	// void send(const char*);
-	void send();
+	void send(const char*);
 
 	template <typename tFunction>
 	void exec(tFunction func);

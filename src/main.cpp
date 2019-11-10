@@ -1,6 +1,6 @@
 #include <M5Stack.h>
 #include "lcd.hpp"
-#include "ble.hpp"
+#include "bluetooth.hpp"
 
 // LCD
 # define LCD_HEIGHT 240
@@ -20,7 +20,8 @@ portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
 void task1_fun(void *params) {
   int count = 0;
-  Ble* mBle = new Ble();
+  Bluetooth* bt = new Bluetooth();
+  bt->active();
   Lcd* mLcd = new Lcd();
   while (1) {
     delay(1);
@@ -31,14 +32,14 @@ void task1_fun(void *params) {
       timerAlarmDisable(timer);
 
       char buf[128];
-      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c", count, t_count, mBle->receive());
+      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c", count, t_count, bt->receive());
       mLcd->draw(buf);
 
       count = 0;
       t_count = -1;
 
       delay(1000);
-      mBle->send();
+      bt->send("From M5Stack\n");
       timerAlarmEnable(timer);
     }
   }
