@@ -2,6 +2,7 @@
 #include "lcd.hpp"
 #include "bluetooth.hpp"
 #include "gyro.hpp"
+#include "gearmotor.hpp"
 
 // LCD
 # define LCD_HEIGHT 240
@@ -25,6 +26,8 @@ void task1_fun(void *params) {
   bt->active();
   Lcd* mLcd = new Lcd();
   Gyro* gyro = new Gyro();
+  GearMotor* gm = new GearMotor(16, 17);
+  bool isRotated = false;
   gyro->reset();
   while (1) {
     delay(1);
@@ -37,6 +40,13 @@ void task1_fun(void *params) {
       char buf[128];
       sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\n pitch: %6.2f\n", count, t_count, bt->receive(), gyro->getAngle());
       mLcd->draw(buf);
+
+      if (isRotated) {
+        gm->stop();
+      } else {
+        gm->rotate();
+      }
+      isRotated = !isRotated;
 
       count = 0;
       t_count = -1;
