@@ -5,14 +5,14 @@
 
 class GearMotor {
 private:
-    int rin_port;
-    int fin_port;
+  int rin_port;
+  int fin_port;
 
 public:
-    explicit GearMotor(int rin_port, int fin_port);
-    virtual ~GearMotor(void);
-    void rotate();
-    void stop();
+  explicit GearMotor(int rin_port, int fin_port);
+  ~GearMotor(void);
+  void rotate();
+  void stop();
 };
 
 #endif

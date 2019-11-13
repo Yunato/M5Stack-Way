@@ -3,10 +3,7 @@
 #include "bluetooth.hpp"
 #include "gyro.hpp"
 #include "gearmotor.hpp"
-
-// LCD
-# define LCD_HEIGHT 240
-# define LCD_WIDTH  320
+#include "ultrasonic.hpp"
 
 // time
 # define SEC_FROM_MICRO   1000000
@@ -27,6 +24,7 @@ void task1_fun(void *params) {
   Lcd* mLcd = new Lcd();
   Gyro* gyro = new Gyro();
   GearMotor* gm = new GearMotor(16, 17);
+  Ultrasonic* us = new Ultrasonic(2, 3);
   bool isRotated = false;
   gyro->reset();
   while (1) {
@@ -38,7 +36,8 @@ void task1_fun(void *params) {
       timerAlarmDisable(timer);
 
       char buf[128];
-      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\n pitch: %6.2f\n", count, t_count, bt->receive(), gyro->getAngle());
+      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\n pitch: %6.2f\n dist: %f\n",
+       count, t_count, bt->receive(), gyro->getAngle(), us->getDistance());
       mLcd->draw(buf);
 
       if (isRotated) {
