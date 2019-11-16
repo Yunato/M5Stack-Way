@@ -22,22 +22,33 @@ void task1_fun(void *params) {
   Bluetooth* bt = new Bluetooth();
   bt->active();
   Lcd* mLcd = new Lcd();
-  Gyro* gyro = new Gyro();
+  // Gyro* gyro = new Gyro();
   GearMotor* gm = new GearMotor(16, 17);
   Ultrasonic* us = new Ultrasonic(2, 3);
   bool isRotated = false;
-  gyro->reset();
+  // gyro->reset();
   while (1) {
     delay(1);
     ++count;
+
+    for (int i = 0; i <= 100; i += 5) {
+      gm->changeSpeed(i);
+      char str[128];
+      sprintf(str, "cnt : %d\n", i);
+      mLcd->draw(str);
+      delay(1000);
+    }
+    delay(10000);
 
     if (t_count > 2) {
       // Print 'count' per 4ms
       timerAlarmDisable(timer);
 
       char buf[128];
-      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\n pitch: %6.2f\n dist: %f\n",
-       count, t_count, bt->receive(), gyro->getAngle(), us->getDistance());
+      // sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\n pitch: %6.2f\n dist: %f\n",
+      //  count, t_count, bt->receive(), gyro->getAngle(), us->getDistance());
+      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\nist: %f\n",
+       count, t_count, bt->receive(), us->getDistance());
       mLcd->draw(buf);
 
       if (isRotated) {

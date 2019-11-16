@@ -2,6 +2,7 @@
 #define GEARMOTOR_H_
 
 #include <M5Stack.h>
+#include "esp32-hal-ledc.h"
 
 class GearMotor {
 private:
@@ -13,6 +14,7 @@ public:
   ~GearMotor(void);
   void rotate();
   void stop();
+  void changeSpeed(int pc);
 };
 
 #endif
