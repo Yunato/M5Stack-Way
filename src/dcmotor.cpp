@@ -1,6 +1,6 @@
-#include "gearmotor.hpp"
+#include "dcmotor.hpp"
 
-GearMotor::GearMotor(int rin_port, int fin_port)
+DcMotor::DcMotor(int rin_port, int fin_port)
 :rin_port(rin_port),fin_port(fin_port) {
   pinMode(rin_port, OUTPUT);
   pinMode(fin_port, OUTPUT);
@@ -11,20 +11,20 @@ GearMotor::GearMotor(int rin_port, int fin_port)
   ledcAttachPin(fin_port, 2); // GPIO 17 assigned to channel 2
 }
 
-GearMotor::~GearMotor(void) {
+DcMotor::~DcMotor(void) {
 }
 
-void GearMotor::rotate() {
+void DcMotor::rotate() {
    digitalWrite(rin_port, HIGH);
    digitalWrite(fin_port, LOW);
 }
 
-void GearMotor::stop() {
+void DcMotor::stop() {
    digitalWrite(rin_port, LOW);
    digitalWrite(fin_port, LOW);
 }
 
-void GearMotor::changeSpeed(int pc) {
+void DcMotor::changeSpeed(int pc) {
   float p = pc / 100.0f;
   if(p > 0){
     ledcWrite(1, 0);

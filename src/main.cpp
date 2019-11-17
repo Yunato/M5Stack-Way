@@ -2,7 +2,7 @@
 #include "lcd.hpp"
 #include "bluetooth.hpp"
 #include "gyro.hpp"
-#include "gearmotor.hpp"
+#include "dcmotor.hpp"
 #include "ultrasonic.hpp"
 
 // time
@@ -23,7 +23,7 @@ void task1_fun(void *params) {
   bt->active();
   Lcd* mLcd = new Lcd();
   // Gyro* gyro = new Gyro();
-  GearMotor* gm = new GearMotor(1, 5);
+  DcMotor* gm = new DcMotor(1, 5);
   Ultrasonic* us = new Ultrasonic(2, 3);
   bool isRotated = false;
   // gyro->reset();

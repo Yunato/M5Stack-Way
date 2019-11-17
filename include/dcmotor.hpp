@@ -4,14 +4,14 @@
 #include <M5Stack.h>
 #include "esp32-hal-ledc.h"
 
-class GearMotor {
+class DcMotor {
 private:
   int rin_port;
   int fin_port;
 
 public:
-  explicit GearMotor(int rin_port, int fin_port);
-  ~GearMotor(void);
+  explicit DcMotor(int rin_port, int fin_port);
+  ~DcMotor(void);
   void rotate();
   void stop();
   void changeSpeed(int pc);
