@@ -23,7 +23,7 @@ void task1_fun(void *params) {
   bt->active();
   Lcd* mLcd = new Lcd();
   // Gyro* gyro = new Gyro();
-  GearMotor* gm = new GearMotor(16, 17);
+  GearMotor* gm = new GearMotor(1, 5);
   Ultrasonic* us = new Ultrasonic(2, 3);
   bool isRotated = false;
   // gyro->reset();
@@ -31,12 +31,12 @@ void task1_fun(void *params) {
     delay(1);
     ++count;
 
-    for (int i = 0; i <= 100; i += 5) {
+    for (int i = 100; i >= -100; i -= 5) {
       gm->changeSpeed(i);
       char str[128];
       sprintf(str, "cnt : %d\n", i);
       mLcd->draw(str);
-      delay(1000);
+      delay(5000);
     }
     delay(10000);
 

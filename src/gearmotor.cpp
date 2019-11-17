@@ -30,7 +30,7 @@ void GearMotor::changeSpeed(int pc) {
     ledcWrite(1, 0);
     ledcWrite(2, (int)(p * 65535.0));
   }else{
-    ledcWrite(1, (int)(p * 65535.0));
+    ledcWrite(1, (int)(p * -1 * 65535.0));
     ledcWrite(2, 0);
   }
 }
