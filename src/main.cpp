@@ -1,12 +1,13 @@
 #include <M5Stack.h>
 #include "bluetooth.hpp"
 #include "moduels.hpp"
+#include "driver.hpp"
 
 # define SEC_FROM_MICRO   1000000
 # define SEC_FROM_MILLI   1000
 # define MILLI_FROM_MICRO 1000
 
-TaskHandle_t task;
+TaskHandle_t balancer_task;
 
 volatile long t_count = -1;
 hw_timer_t *timer = NULL;
@@ -17,9 +18,6 @@ void task_fun(void *params) {
   Bluetooth* bt = new Bluetooth();
   bt->active();
   Lcd* mLcd = new Lcd();
-  // Gyro* gyro = new Gyro();
-  DcMotor* gm = new DcMotor(dm_rin_port, dm_fin_port);
-  Ultrasonic* us = new Ultrasonic(us_rin_port, us_fin_port);
   // gyro->reset();
   while (1) {
     delay(1);
@@ -30,18 +28,19 @@ void task_fun(void *params) {
       timerAlarmDisable(timer);
 
       char buf[128];
-      sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\nist: %f\n",
-       count, t_count, bt->receive(), us->getDistance());
+      sprintf(buf, "4ms task");
+      // sprintf(buf, "count  : %d\nt_count: %ld\nreceived: %c\ndist: %f\n",
+      //  count, t_count, bt->receive(), us->getDistance());
       mLcd->draw(buf);
 
       count = 0;
       t_count = -1;
 
-      for (int i = 100; i >= -100; i -= 5) {
-        gm->changeSpeed(i);
-        delay(1000);
-      }
-      gm->changeSpeed(0);
+      // for (int i = 100; i >= -100; i -= 5) {
+      //   gm->changeSpeed(i);
+      //   delay(1000);
+      // }
+      // gm->changeSpeed(0);
 
       delay(1000);
       timerAlarmEnable(timer);
@@ -66,8 +65,11 @@ void setup() {
   timerAlarmEnable(timer);
 
   // task function, task name, stack size, parameter, priority, task handle, task affinity
-  xTaskCreatePinnedToCore(task_fun, "task", 4096, NULL, 2, &task, 0);
+  xTaskCreatePinnedToCore(task_fun, "task", 4096, NULL, 2, &balancer_task, 0);
   // xTaskCreatePinnedToCore(task2_fun, "task2", 4096, NULL, 1, &task2, 0);
+
+  Driver* driver = new Driver();
+  driver->execute();
 }
 
 void loop() {}
