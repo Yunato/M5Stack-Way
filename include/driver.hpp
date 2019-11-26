@@ -5,8 +5,10 @@
 
 class Driver{
 private:
-  // Gyro* gyro = new Gyro();
-  DcMotor* gm = new DcMotor(dm_rin_port, dm_fin_port);
+  Lcd* mlcd = new Lcd();
+  Gyro* gyro = new Gyro();
+  DcMotor* lgm = new DcMotor(0, ldm_rin_port, ldm_fin_port);
+  DcMotor* rgm = new DcMotor(1, rdm_rin_port, rdm_fin_port);
   Ultrasonic* us = new Ultrasonic(us_rin_port, us_fin_port);
 public:
 	Driver(void);

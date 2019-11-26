@@ -6,11 +6,12 @@
 
 class DcMotor {
 private:
+  int num;
   int rin_port;
   int fin_port;
 
 public:
-  explicit DcMotor(int rin_port, int fin_port);
+  explicit DcMotor(int num, int rin_port, int fin_port);
   ~DcMotor(void);
   void rotate();
   void stop();

@@ -7,9 +7,11 @@
 #include "lcd.hpp"
 
 static const int
-  us_rin_port = 2,
-  us_fin_port = 3,
-  dm_rin_port = 1,
-  dm_fin_port = 5;
+  us_rin_port = 35,
+  us_fin_port = 36,
+  ldm_rin_port = 3,
+  ldm_fin_port = 1,
+  rdm_rin_port = 16,
+  rdm_fin_port = 17;
 
 #endif

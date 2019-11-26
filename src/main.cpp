@@ -50,7 +50,8 @@ void task_fun(void *params) {
 
 void IRAM_ATTR onTimer() {
   portENTER_CRITICAL_ISR(&timerMux);
-  ++t_count;
+  //++t_count;
+  t_count = 0;
   portEXIT_CRITICAL_ISR(&timerMux);
 }
 
