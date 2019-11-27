@@ -5,10 +5,10 @@ DcMotor::DcMotor(int num, int rin_port, int fin_port)
   pinMode(rin_port, OUTPUT);
   pinMode(fin_port, OUTPUT);
 
-  ledcSetup(this->num, 20000, 16);    // channel 1, 20kHz, 16bit
-  ledcAttachPin(rin_port, this->num); // GPIO 16 assigned to channel 1
-  ledcSetup(this->num + 1, 20000, 16);    // channel 2, 20kHz, 16bit
-  ledcAttachPin(fin_port, this->num + 1); // GPIO 17 assigned to channel 2
+  ledcSetup(this->num, 30000, 10);    // channel this->num, 30kHz, 10bit
+  ledcAttachPin(rin_port, this->num); // GPIO rin_port assigned to channel this->num
+  ledcSetup(this->num + 1, 30000, 10);    // channel this-num + 1, 30kHz, 10bit
+  ledcAttachPin(fin_port, this->num + 1); // GPIO fin_port assigned to channel this->num
 }
 
 DcMotor::~DcMotor(void) {
@@ -28,9 +28,9 @@ void DcMotor::changeSpeed(int pc) {
   float p = pc / 100.0f;
   if(p > 0){
     ledcWrite(this->num, 0);
-    ledcWrite(this->num + 1, (int)(p * 65535.0));
+    ledcWrite(this->num + 1, (int)(p * 1023.0));
   }else{
-    ledcWrite(this->num, (int)(p * -1 * 65535.0));
+    ledcWrite(this->num, (int)(p * -1 * 1023.0));
     ledcWrite(this->num + 1, 0);
   }
 }
