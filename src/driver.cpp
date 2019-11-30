@@ -12,7 +12,7 @@ bool Driver::execute(void){
 		for (int power = 0; power <= 255; power += 51) {
 			lgm->setPWM(power);
 			rgm->setPWM(power);
-			sprintf(buf, "power : %d", power);
+			sprintf(buf, "power : %d\ndist:%f\n", power, us->getDistance());
 			mlcd->draw(buf);
 			delay(3000);
 		}
@@ -20,7 +20,7 @@ bool Driver::execute(void){
 		rgm->setPWM(0);
 		sprintf(buf, "stop");
 		mlcd->draw(buf);
-		delay(3000);
+		delay(100);
 	}
 	return false;
 }
