@@ -9,13 +9,14 @@ private:
   int num;
   int rin_port;
   int fin_port;
+  int dac_port;
 
 public:
-  explicit DcMotor(int num, int rin_port, int fin_port);
+  explicit DcMotor(int num, int rin_port, int fin_port, int dac_port);
   ~DcMotor(void);
   void rotate();
   void stop();
-  void changeSpeed(int pc);
+  void setPWM(int pc);
 };
 
 #endif
