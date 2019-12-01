@@ -22,6 +22,6 @@ void Gyro::reset(void) {
   do{
     M5.IMU.Init();
     std_value = getAngle();
-   	delay(3000);
+   	delay(500);
   }while((int)getAngle() != (int)std_value);
 }

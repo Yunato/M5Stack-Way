@@ -18,15 +18,9 @@ public:
   ~Gyro(void);
 
   float getAngle(void);
-  // void checkPort(void);
   void setValue(int);
   float getValue(void);
   void reset(void);
-  /*
-  void setOffset(int16_t offset);
-
-  int16_t getAnglerVelocity(void) const;
-  */
 };
 
 #endif
