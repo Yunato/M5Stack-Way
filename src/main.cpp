@@ -31,7 +31,8 @@ void setup() {
   Serial.begin(115200);
   M5.begin();
   M5.Power.begin();
-  // dacWrite(25, 0); // Speaker OFF
+  M5.Speaker.begin();
+  dacWrite(25, 1); // Speaker OFF
 
   timer = timerBegin(0, 80, true);
   timerAttachInterrupt(timer, &onTimer, true);

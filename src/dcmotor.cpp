@@ -12,9 +12,14 @@ DcMotor::DcMotor(int num, int rin_port, int fin_port, int dac_port)
 DcMotor::~DcMotor(void) {
 }
 
-void DcMotor::rotate() {
-   digitalWrite(rin_port, HIGH);
-   digitalWrite(fin_port, LOW);
+void DcMotor::rotate(bool is_positive_rotate) {
+  if (is_positive_rotate) {
+    digitalWrite(rin_port, HIGH);
+    digitalWrite(fin_port, LOW);
+  }else {
+    digitalWrite(rin_port, LOW);
+    digitalWrite(fin_port, HIGH);
+  }
 }
 
 void DcMotor::stop() {
@@ -23,6 +28,6 @@ void DcMotor::stop() {
 }
 
 void DcMotor::setPWM(int power) {
-  dacWrite(dac_port, power);
-  rotate();
+  dacWrite(dac_port, abs(power));
+  rotate(power > 0);
 }

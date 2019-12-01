@@ -10,11 +10,11 @@ private:
   int rin_port;
   int fin_port;
   int dac_port;
+  void rotate(bool is_positive_rotate);
 
 public:
   explicit DcMotor(int num, int rin_port, int fin_port, int dac_port);
   ~DcMotor(void);
-  void rotate();
   void stop();
   void setPWM(int pc);
 };

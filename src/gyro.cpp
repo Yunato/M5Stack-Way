@@ -13,7 +13,7 @@ void Gyro::setValue(int value) {
 	this->gyroX = value;
 }
 
-float Gyro::getValue() {
+float Gyro::getValue(void) {
 	return this->gyroX;
 }
 
@@ -24,4 +24,20 @@ void Gyro::reset(void) {
     std_value = getAngle();
    	delay(500);
   }while((int)getAngle() != (int)std_value);
+}
+
+void Gyro::setupOffset(void) {
+  this->mOffset = this->DEFAULT_OFFSET;
+  for (int cnt = 0; cnt < 255; ++cnt) {
+    this->mOffset += getAngle();
+  }
+  this->mOffset /= 255.0f;
+  M5.Speaker.tone(250);
+  delay(100);
+  M5.Speaker.end();
+  delay(2900);
+}
+
+float Gyro::getOffset(void) {
+  return this->mOffset;
 }

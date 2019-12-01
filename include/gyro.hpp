@@ -7,8 +7,8 @@
 class Gyro {
 
 private:
-  static const uint8_t DEFAULT_OFFSET = 0;
-  uint8_t mOffset;
+  static constexpr float DEFAULT_OFFSET = 0.0f;
+  float mOffset;
   float gyroX;
   float gyroY;
   float gyroZ;
@@ -21,6 +21,8 @@ public:
   void setValue(int);
   float getValue(void);
   void reset(void);
+  void setupOffset(void);
+  float getOffset(void);
 };
 
 #endif
