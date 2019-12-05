@@ -2,7 +2,7 @@
 
 Driver::Driver(void) {
   gyro->reset();
-	gyro->setupOffset();
+	gyro->setup();
 }
 
 Driver::~Driver(void) {}

@@ -2,7 +2,7 @@
 
 Balancer::Balancer(void) {
   gyro->reset();
-  gyro->setupOffset();
+  gyro->setup();
 }
 
 Balancer::~Balancer(void) {}
