@@ -1,6 +1,6 @@
-#include "dcmotor.hpp"
+#include "motor.hpp"
 
-DcMotor::DcMotor(int num, int rin_port, int fin_port, int dac_port)
+Motor::Motor(int num, int rin_port, int fin_port, int dac_port)
 :num(num * 2 + 1),rin_port(rin_port),fin_port(fin_port),dac_port(dac_port) {
   pinMode(rin_port, OUTPUT);
   pinMode(fin_port, OUTPUT);
@@ -9,10 +9,10 @@ DcMotor::DcMotor(int num, int rin_port, int fin_port, int dac_port)
   digitalWrite(fin_port, LOW);
 }
 
-DcMotor::~DcMotor(void) {
+Motor::~Motor(void) {
 }
 
-void DcMotor::rotate(bool is_positive_rotate) {
+void Motor::rotate(bool is_positive_rotate) {
   if (is_positive_rotate) {
     digitalWrite(rin_port, HIGH);
     digitalWrite(fin_port, LOW);
@@ -22,12 +22,12 @@ void DcMotor::rotate(bool is_positive_rotate) {
   }
 }
 
-void DcMotor::stop() {
+void Motor::stop() {
    digitalWrite(rin_port, LOW);
    digitalWrite(fin_port, LOW);
 }
 
-void DcMotor::setPWM(int power) {
+void Motor::setPWM(int power) {
   dacWrite(dac_port, abs(power));
   rotate(power > 0);
 }

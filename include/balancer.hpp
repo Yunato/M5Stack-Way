@@ -14,8 +14,8 @@ private:
   static constexpr float F4 = 0.0001f;
 
   Gyro* gyro = new Gyro();
-  DcMotor* lgm = new DcMotor(0, ldm_rin_port, ldm_fin_port, ldm_dac_port);
-  DcMotor* rgm = new DcMotor(1, rdm_rin_port, rdm_fin_port, rdm_dac_port);
+  Motor* lgm = new Motor(0, ldm_rin_port, ldm_fin_port, ldm_dac_port);
+  Motor* rgm = new Motor(1, rdm_rin_port, rdm_fin_port, rdm_dac_port);
   Ultrasonic* us = new Ultrasonic(us_rin_port, us_fin_port);
 public:
 	Balancer(void);

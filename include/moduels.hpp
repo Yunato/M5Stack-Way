@@ -3,7 +3,7 @@
 
 #include "ultrasonic.hpp"
 #include "gyro.hpp"
-#include "dcmotor.hpp"
+#include "motor.hpp"
 #include "lcd.hpp"
 
 static const int
