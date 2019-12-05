@@ -6,17 +6,17 @@
 
 class Motor {
 private:
-  int num;
   int rin_port;
   int fin_port;
   int dac_port;
-  void rotate(bool is_positive_rotate);
+  int power;
 
 public:
-  explicit Motor(int num, int rin_port, int fin_port, int dac_port);
+  explicit Motor(int rin_port, int fin_port, int dac_port);
   ~Motor(void);
+  void setPWM(int power);
+  void rotate();
   void stop();
-  void setPWM(int pc);
 };
 
 #endif
