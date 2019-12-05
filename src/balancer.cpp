@@ -1,13 +1,14 @@
 #include "balancer.hpp"
 
-Balancer::Balancer(void) {
-  gyro->reset();
+Balancer::Balancer(Gyro* gyro, Motor* lgm, Motor* rgm):
+gyro(gyro), lgm(lgm), rgm(rgm) {
   gyro->setup();
 }
 
-Balancer::~Balancer(void) {}
+Balancer::~Balancer(void) { }
 
-void Balancer::execute(void){
+// not work
+void Balancer::execute(float base_angle) {
   float angular_velocity = gyro->getAngularVelocity() - gyro->getOffset();
   this->angle += (angular_velocity / 160.0f);
   // this->angle = gyro->getAngle();
@@ -18,11 +19,10 @@ void Balancer::execute(void){
   float term4 = this->F4 * distance / 1000;
 
   float pwr = term1 + term2 + term3 + term4;
-  // float max_pwr = 110.0f; // F1 only
-  float max_pwr = 1000.0f; // F1 only
+  float max_pwr = 60.0f;
   float min_pwr = 1.0f;
 
-  float pwm_max = 200.0f;
+  float pwm_max = 250.0f;
   float pwm_min = 60.0f;
 
   int pwm = 0;
@@ -41,6 +41,7 @@ void Balancer::execute(void){
       pwm *= -1;
     }
   }
+
   char buf[124];
   sprintf(buf, "pwr: %6.2f, pwm: %d", pwr, pwm);
   Serial.println(buf);
@@ -51,3 +52,52 @@ void Balancer::execute(void){
   distance += (float)velocity;
 }
 
+void Balancer::pid() {
+  // gyro->kalmanFilter();
+  // float angular_velocity = gyro->getFilterd() - gyro->getFilterdOffset();
+  // float p = angular_velocity;
+  // i = p * 4.0f;
+  // float d = (p - last_p) / 4.0f;
+  // float pwr = P * p + I * i + D * d;
+  // last_p = p;
+
+  float angular_velocity = gyro->getAngularVelocity() - gyro->getOffset();
+  this->angle += angular_velocity;
+  float p = this->angle;
+  i += p * 4.0f;
+  float d = angular_velocity / 4.0f;
+  float pwr = P * p + I * i + D * d;
+  float max_pwr = 5000.0f;
+  float min_pwr = 1.0f;
+
+  float pwm_max = 250.0f;
+  float pwm_min = 30.0f;
+
+  int pwm = 0;
+  if (pwr >= max_pwr) {
+    pwm = -pwm_max;
+  } else if(pwr <= -max_pwr) {
+    pwm = pwm_max;
+  } else if(abs(pwr) >= min_pwr) {
+    pwm = (int)(pwm_min + (pwm_max - pwm_min) * abs(pwr)/ max_pwr);
+    if (pwr > 0) {
+      pwm *= -1;
+    }
+  } else {
+    pwm = pwm_min;
+    if (pwr > 0) {
+      pwm *= -1;
+    }
+  }
+  char buf[124];
+  sprintf(buf, "pwr: %6.2f, pwm: %d, velocity: %6.2f", pwr, pwm, velocity);
+  Serial.println(buf);
+  lgm->setPWM(pwm);
+  rgm->setPWM(pwm);
+}
+
+void Balancer::reset(void) {
+  angle = 0.0f;
+  velocity = 0.0f;
+  distance = 0.0f;
+}
