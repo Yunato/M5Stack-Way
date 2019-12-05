@@ -12,8 +12,13 @@ TaskHandle_t balancer_task;
 hw_timer_t *timer = NULL;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
+Lcd* mlcd;
+Gyro* gyro;
+Motor* lgm;
+Motor* rgm;
+
 void task_fun(void *params) {
-  Driver* driver = new Driver();
+  Driver* driver = new Driver(mlcd, gyro, lgm, rgm);
   driver->execute();
 }
 
