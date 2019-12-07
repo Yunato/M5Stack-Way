@@ -6,7 +6,6 @@
 #include "filter.hpp"
 
 class Gyro {
-
 private:
   static constexpr float DEFAULT_OFFSET = 0.0f;
   float mOffset;

@@ -1,13 +1,25 @@
 #include "balancer.hpp"
 
+/**
+ * @brief Constructor
+ * @details Setup for gyro sensor and motors
+ * @param gyro object for gyro sensor
+ * @param lgm object for left gear motor
+ * @param rgm object for right gear motor
+ */
 Balancer::Balancer(Gyro* gyro, Motor* lgm, Motor* rgm):
 gyro(gyro), lgm(lgm), rgm(rgm) {
   gyro->setup();
 }
 
+/**
+ * @brief Destructor
+ */
 Balancer::~Balancer(void) { }
 
-// not work
+/**
+ * @brief Control based on equation of motion　(Not work)
+ */
 void Balancer::execute(float base_angle) {
   float angular_velocity = gyro->getAngularVelocity() - gyro->getOffset();
   this->angle += (angular_velocity / 160.0f);
@@ -52,6 +64,9 @@ void Balancer::execute(float base_angle) {
   distance += (float)velocity;
 }
 
+/**
+ * @brief PID Control
+ */
 void Balancer::pid() {
   // gyro->kalmanFilter();
   // float angular_velocity = gyro->getFilterd() - gyro->getFilterdOffset();
@@ -96,6 +111,9 @@ void Balancer::pid() {
   rgm->setPWM(pwm);
 }
 
+/**
+ * @brief Reset
+ */
 void Balancer::reset(void) {
   angle = 0.0f;
   velocity = 0.0f;

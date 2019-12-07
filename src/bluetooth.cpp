@@ -45,9 +45,9 @@ void Bluetooth::send(const char* str) {
   bts.write(u, size);
 }
 
-/// <summary>
-/// Wait for data via Bluetooth
-/// </summary>
+/**
+ * @brief Wait for data via Bluetooth
+ */
 template <typename tFunction>
 void Bluetooth::exec(tFunction func) {
 	active();

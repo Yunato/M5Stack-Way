@@ -27,6 +27,9 @@ Motor* rgm;
 bool canExecute = false;
 int state = BT_ON;
 
+/**
+ * @brief Bluetooth task
+ */
 void task_bt(void *params) {
   char str[128];
   Bluetooth* bt = new Bluetooth();
@@ -48,6 +51,9 @@ void task_bt(void *params) {
   }
 }
 
+/**
+ * @brief Drive task
+ */
 void task_drive(void *params) {
   vTaskDelete(select_task);
   mlcd->draw("Initializing...");
@@ -76,6 +82,9 @@ void task_drive(void *params) {
   driver->execute();
 }
 
+/**
+ * @brief (Mode) Select task
+ */
 void task_select(void *params) {
   while(true) {
     if (M5.BtnA.wasPressed()) {
@@ -91,9 +100,9 @@ void task_select(void *params) {
   }
 }
 
-// 4ms
-// - Bluetooth
-// - Inverted pendulum
+/**
+ * @brief Periodic task　(4ms)
+ */
 void IRAM_ATTR onTimer() {
   // get FPU state
   uint32_t cp_state = xthal_get_cpenable();

@@ -4,7 +4,6 @@
 #include <M5Stack.h>
 
 class Ultrasonic {
-
 private:
   double value;
   int echo_port;

@@ -1,10 +1,23 @@
 #include "driver.hpp"
 
+/**
+ * @brief Constructor
+ * @param gyro object for gyro sensor
+ * @param lgm object for left gear motor
+ * @param rgm object for right gear motor
+ */
 Driver::Driver(Lcd* mlcd, Gyro* gyro, Motor* lgm, Motor* rgm):
 mlcd(mlcd), gyro(gyro), lgm(lgm), rgm(rgm) { }
 
+/**
+ * @brief Destructor
+ */
 Driver::~Driver(void) {}
 
+/**
+ * @brief Update
+ * @details Start motors, get values from gyro sensor
+ */
 bool Driver::execute(void){
 	// char buf[128];
 	while(true){
